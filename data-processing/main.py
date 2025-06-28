@@ -74,10 +74,11 @@ async def main():
             crypto_processor,
             news_processor, 
             portfolio_processor,
-            starknet_processor
+            starknet_processor,
+            db_config
         )
         
-        scheduler.setup_schedules()
+        scheduler.start()
         
         logger.info("Data processing setup completed successfully")
         

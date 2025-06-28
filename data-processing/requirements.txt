@@ -63,7 +63,7 @@ spacy>=3.7.0
 
 # Financial calculations
 QuantLib>=1.32
-ta-lib>=0.4.28
+# ta-lib>=0.4.28
 yfinance>=0.2.22
 
 # Image processing (for charts/graphs)
