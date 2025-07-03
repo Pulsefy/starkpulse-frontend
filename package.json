@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@elastic/elasticsearch": "^9.0.3"
+  }
+}

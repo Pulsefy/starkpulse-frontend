@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const searchService = require('../services/searchService');
 
 const userSchema = new mongoose.Schema(
   {
@@ -306,5 +307,16 @@ userSchema.methods.hasValidRefreshToken = function (token) {
     (rt) => rt.token === token && rt.expiresAt > now
   );
 };
+
+// Index to Elasticsearch after save
+userSchema.post('save', async function(doc) {
+  await searchService.indexDocument('users', doc._id.toString(), doc.toObject());
+});
+
+// Remove from Elasticsearch after delete
+userSchema.post('remove', async function(doc) {
+  const esClient = require('../config/elasticsearch');
+  await esClient.delete({ index: 'users', id: doc._id.toString() }).catch(() => {});
+});
 
 module.exports = mongoose.model("User", userSchema);

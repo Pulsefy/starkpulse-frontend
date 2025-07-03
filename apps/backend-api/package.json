@@ -9,7 +9,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "audit": "npm audit --audit-level=high",
-    "scan": "npx retire"
+    "scan": "npx retire",
+    "backfill:elasticsearch": "node scripts/backfill-elasticsearch.js"
   },
   "keywords": [
     "express",
@@ -36,7 +37,8 @@
     "pino": "^9.7.0",
     "pino-pretty": "^13.0.0",
     "ratelimiter": "^3.4.1",
-    "semver": "^7.5.4"
+    "semver": "^7.5.4",
+    "@elastic/elasticsearch": "^8.13.0"
   },
   "devDependencies": {
     "artillery": "^2.0.23",

@@ -5,6 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const { versionHandler, getVersions, getLatestVersion } = require('../middleware/versionHandler');
+const searchRoutes = require('./search');
 
 // API version information endpoint
 router.get('/versions', (req, res) => {
@@ -28,4 +29,7 @@ router.use('/v2', require('./v2'));
 // Default to latest version for unversioned routes
 router.use('/', require(`./${getLatestVersion()}`));
 
-module.exports = router;
+module.exports = {
+  router,
+  searchRoutes,
+};

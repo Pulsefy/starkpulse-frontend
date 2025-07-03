@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const searchService = require('../services/searchService');
+const esClient = require('../config/elasticsearch');
 
 const assetSchema = new mongoose.Schema({
   symbol: {
@@ -53,6 +55,16 @@ const portfolioSchema = new mongoose.Schema({
 portfolioSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
+});
+
+// Index to Elasticsearch after save
+portfolioSchema.post('save', async function(doc) {
+  await searchService.indexDocument('portfolio', doc._id.toString(), doc.toObject());
+});
+
+// Remove from Elasticsearch after delete
+portfolioSchema.post('remove', async function(doc) {
+  await esClient.delete({ index: 'portfolio', id: doc._id.toString() }).catch(() => {});
 });
 
 module.exports = mongoose.model('Portfolio', portfolioSchema);
